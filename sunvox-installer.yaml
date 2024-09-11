@@ -30,14 +30,14 @@ slug: sunvox
 installer_slug: sunvox
 script:
   files:
-  - engine: https://raw.githubusercontent.com/itsdarklikehell/sunvox-installer-lutris/main/sunvox-installer.sh
+  - zipfile: https://warmplace.ru/soft/sunvox/sunvox-$VERSION.zip
   game:
     exe: sunvox
   installer:
-  - chmodx: engine
-  - copy:
-      dst: "$GAMEDIR"
-      src: engine
+  - chmodx: $GAMEDIR/sunvox
+  - extract:
+    file: zipfile
+    dst: $GAMEDIR
   system:
     env:
       SUNVOX_FOLDER: "$GAMEDIR"
