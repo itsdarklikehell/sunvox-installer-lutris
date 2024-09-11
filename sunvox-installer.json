@@ -1,0 +1,40 @@
+{
+    "game_slug": "sunvox",
+    "version": "2.1.1c",
+    "description": "SunVox is a small, fast and powerful modular synthesizer with pattern-based sequencer (tracker). It is a tool for those people who like to compose music wherever they are, whenever they wish. On any device. On any system. And it's free for most of the systems.",
+    "notes": "Key features:\r\n\r\n- highly optimized synth algorithms, flexible architecture; SunVox works on a variety of devices with different CPUs;\r\n- supported systems:\r\n    - Windows (2000+);\r\n    - macOS (10.13+);\r\n    - Linux (x86, x86_64, ARM (Raspberry Pi, PocketCHIP, N900, etc.), ARM64 (PINE64, etc.));\r\n    - iOS (12.0+);\r\n    - Android (4.1+);\r\n- Windows CE (including Pocket PC and Windows Mobile; ARM only);\r\n- supported sound systems: ASIO, DirectSound, MME, ALSA, OSS, JACK, Audiobus, IAA;\r\n- SunVox as a plugin: AU instrument/effect for iOS;\r\n- support of 16/24/32bit WAV, AIFF and XI samples;\r\n- multitrack WAV export;\r\n- MIDI In/Out/Import/Export;\r\n- XM (FastTracker) and MOD (ProTracker, OctaMED) import;\r\n- real-time sample recording;\r\n- real-time recording of any types of sound events (notes, Touch Theremin, controllers);\r\n- powerful microtonal (ultra-chromatic) sequencer;\r\n- generative music features: random selection of notes, random values of controllers, probability effects; see examples;\r\n- free cross-platform library for developers is available; so it's possible to use SunVox engine in your own applications;\r\n- a lot of built-in modules (synths and effects) + ability to make very complex connections between them.",
+    "name": "Genshin Impact",
+    "year": 2020,
+    "steamid": null,
+    "gogslug": "",
+    "humblestoreid": "",
+    "runner": "linux",
+    "slug": "sunvox",
+    "installer_slug": "sunvox",
+    "script": {
+        "files": [
+            {
+                "engine": "https://github.com/an-anime-team/an-anime-game-launcher/releases/download/3.12.1/anime-game-launcher"
+            }
+        ],
+        "game": {
+            "exe": "sunvox"
+        },
+        "installer": [
+            {
+                "chmodx": "engine"
+            },
+            {
+                "copy": {
+                    "dst": "$GAMEDIR",
+                    "src": "engine"
+                }
+            }
+        ],
+        "system": {
+            "env": {
+                "SUNVOX_FOLDER": "$GAMEDIR"
+            }
+        }
+    }
+}
