@@ -14,7 +14,7 @@
     "script": {
         "files": [
             {
-                "engine": "https://github.com/an-anime-team/an-anime-game-launcher/releases/download/3.12.1/anime-game-launcher"
+                "engine": "https://github.com/itsdarklikehell/sunvox-installer-lutris/sunvox-installer.sh"
             }
         ],
         "game": {
