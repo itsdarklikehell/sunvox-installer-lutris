@@ -16,11 +16,11 @@ if [ -d /usr/share/applications/sunvox-opengl.desktop ]; then sudo rm /usr/share
 if [ -d /usr/share/applications/sunvox-fix.desktop ]; then sudo rm /usr/share/applications/sunvox-fix.desktop; fi
 
 echo "Download SunVox from official server"
-wget https://warmplace.ru/soft/sunvox/sunvox-$VERSION.zip
+wget https://warmplace.ru/soft/sunvox/sunvox-"$VERSION".zip
 wget https://warmplace.ru/soft/sunvox/images/icon.png
 # Unzip the downloaded file
-unzip sunvox-$VERSION.zip
-rm sunvox-$VERSION.zip
+unzip sunvox-"$VERSION".zip
+rm sunvox-"$VERSION".zip
 
 echo "Installation"
 # Create a directory for SunVox
@@ -56,7 +56,7 @@ Type=Application" | sudo tee /usr/share/applications/sunvox-fix.desktop > /dev/n
 
 
 # Set the permissions of the SunVox files
-sudo chown -R $USER:$USER /opt/sunvox
+sudo chown -R "$USER":"$USER" /opt/sunvox
 sudo chmod -R 755 /opt/sunvox
 echo "Sunvox is now installed on your system. You can start it with following commands from terminal:"
 echo "sunvox"
