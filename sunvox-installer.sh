@@ -49,7 +49,7 @@ Type=Application" | sudo tee /usr/share/applications/sunvox-opengl.desktop > /de
 
 echo "[Desktop Entry]
 Name=SunVox Gnome-Integration
-Exec=xdotool search --name "Sunvox" set_window --class "Sunvox"
+Exec=xdotool search --name 'Sunvox' set_window --class 'Sunvox'
 Icon=/opt/sunvox/icon.png
 Type=Application" | sudo tee /usr/share/applications/sunvox-fix.desktop > /dev/null
 
