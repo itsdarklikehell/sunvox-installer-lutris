@@ -10,10 +10,11 @@ fi
 
 echo "Removing previous version"
 if [ -d /opt/sunvox ]; then sudo rm -rf /opt/sunvox; fi
-if [ -d /usr/local/bin/sunvox ]; then sudo rm /usr/local/bin/sunvox; fi
-if [ -d /usr/share/applications/sunvox.desktop ]; then sudo rm /usr/share/applications/sunvox.desktop; fi
-if [ -d /usr/share/applications/sunvox-opengl.desktop ]; then sudo rm /usr/share/applications/sunvox-opengl.desktop; fi
-if [ -d /usr/share/applications/sunvox-fix.desktop ]; then sudo rm /usr/share/applications/sunvox-fix.desktop; fi
+if [ -e /usr/local/bin/sunvox ]; then sudo rm -f /usr/local/bin/sunvox; fi
+if [ -e /usr/local/bin/sunvox_opengl ]; then sudo rm -f /usr/local/bin/sunvox_opengl; fi
+if [ -e /usr/share/applications/sunvox.desktop ]; then sudo rm -f /usr/share/applications/sunvox.desktop; fi
+if [ -e /usr/share/applications/sunvox-opengl.desktop ]; then sudo rm -f /usr/share/applications/sunvox-opengl.desktop; fi
+if [ -e /usr/share/applications/sunvox-fix.desktop ]; then sudo rm -f /usr/share/applications/sunvox-fix.desktop; fi
 
 echo "Download SunVox from official server"
 wget https://warmplace.ru/soft/sunvox/sunvox-"$VERSION".zip
@@ -24,7 +25,7 @@ rm sunvox-"$VERSION".zip
 
 echo "Installation"
 # Create a directory for SunVox
-sudo mkdir /opt/sunvox
+sudo mkdir -p /opt/sunvox
 sudo mv icon.png sunvox/
 # Move the SunVox files to the new directory
 sudo mv sunvox/* /opt/sunvox/
@@ -47,11 +48,13 @@ Exec=/opt/sunvox/sunvox/linux_x86_64/sunvox_opengl
 Icon=/opt/sunvox/icon.png
 Type=Application" | sudo tee /usr/share/applications/sunvox-opengl.desktop > /dev/null
 
-echo "[Desktop Entry]
+sudo tee /usr/share/applications/sunvox-fix.desktop > /dev/null <<'EOF'
+[Desktop Entry]
 Name=SunVox Gnome-Integration
 Exec=xdotool search --name 'Sunvox' set_window --class 'Sunvox'
 Icon=/opt/sunvox/icon.png
-Type=Application" | sudo tee /usr/share/applications/sunvox-fix.desktop > /dev/null
+Type=Application
+EOF
 
 
 
