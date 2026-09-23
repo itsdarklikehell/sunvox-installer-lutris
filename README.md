@@ -24,7 +24,7 @@ which fixes window class detection under GNOME.
 
 ### Usage
 
-```
+```bash
 git clone https://github.com/itsdarklikehell/sunvox-installer-lutris.git
 cd sunvox-installer-lutris
 chmod +x sunvox-installer.sh
@@ -50,7 +50,7 @@ Re-running the script removes the previous installation first.
 
 From a terminal:
 
-```
+```bash
 sunvox        # default build
 sunvox_opengl # OpenGL build
 ```
@@ -79,13 +79,22 @@ De ontwikkelhistorie van dit project in een film:
 *De video wordt automatisch gegenereerd door de [Gource workflow](.github/workflows/gource.yml) bij elke push.*
 
 Lokale video genereren:
+
 ```bash
+# Eerst de Gource renderbaan genereren (textuur + tree als PPM-stream):
 gource --max-files 1000 --key -800x600 \
-  --highlight-users --filename-time 3 --output-framerate 25 \
+  --highlight-users --filename-time 3 --output-framerate 60 \
   -s 0.6 --multi-sampling --auto-skip-seconds 0.1 \
   --stop-at-end --hide mouse,progress -o gource.ppm
 
-ffmpeg -y -r 15 -f image2pipe -vcodec ppm -i gource.ppm \
+# PPM stream naar MP4 (hoge kwaliteit, 60fps):
+ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i gource.ppm \
   -vcodec libx264 -preset medium -pix_fmt yuv420p \
   -crf 1 -threads 0 -bf 0 gource.mp4
+```
+
+Voor een kleinere versie (640x480, voor Telegram/markdown):
+
+```bash
+ffmpeg -y -i gource.mp4 -vf "scale=640:480" -c:v libx264 -crf 23 -preset fast gource_telegram.mp4
 ```
