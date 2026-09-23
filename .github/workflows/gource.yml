@@ -21,7 +21,7 @@ jobs:
 
       - name: Generate Gource video
         run: |
-          gource --max-files 1000 --key -800x600 \
+          xvfb-run -a gource --max-files 1000 --key -800x600 \
             --highlight-users --filename-time 3 --output-framerate 25 \
             -s 0.6 --multi-sampling --auto-skip-seconds 0.1 \
             --stop-at-end --hide mouse,progress -o gource.ppm
