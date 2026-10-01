@@ -1,0 +1,34 @@
+# Label configuration for labeler action
+# See https://github.com/actions/labeler
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.md'
+          - 'docs/**'
+
+bug:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'scripts/**'
+          - 'src/**'
+          - '*.sh'
+
+enhancement:
+  - head-branch: ['^feature/', '^feat/']
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/workflows/**'
+          - '.github/**'
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'package.json'
+          - 'package-lock.json'
+          - 'requirements.txt'
+          - 'pyproject.toml'
+          - 'Dockerfile'
+          - 'docker-compose*.yml'
