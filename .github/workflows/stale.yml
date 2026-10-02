@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Close stale issues and PRs
-        uses: actions/stale@v9
+        uses: actions/stale@v11
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           stale-issue-message: 'Dit issue is gemarkeerd als stale omdat het 60 dagen geen activiteit heeft gehad. Het wordt binnen 7 dagen gesloten tenzij nieuwe activiteit plaatsvindt.'
