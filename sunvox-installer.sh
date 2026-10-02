@@ -1,52 +1,60 @@
-#! /bin/bash
+#!/bin/bash
+set -euo pipefail
 
-read -p "Please enter the version of sunvox, you want to install (Example: 2.1b): " VERSION 
+# sunvox-installer: installeert SunVox op Linux
+# Gebruik: bash sunvox-installer.sh [VERSION]
 
-# Check if the version is provided
+VERSION="${1:-}"
+
+if [ -z "$VERSION" ]; then
+    read -p "Please enter the version of sunvox, you want to install (Example: 2.1b): " VERSION
+fi
+
 if [ -z "$VERSION" ]; then
     echo "Version not provided. Exiting."
     exit 1
 fi
 
 echo "Removing previous version"
-if [ -d /opt/sunvox ]; then sudo rm -rf /opt/sunvox; fi
-if [ -e /usr/local/bin/sunvox ]; then sudo rm -f /usr/local/bin/sunvox; fi
-if [ -e /usr/local/bin/sunvox_opengl ]; then sudo rm -f /usr/local/bin/sunvox_opengl; fi
-if [ -e /usr/share/applications/sunvox.desktop ]; then sudo rm -f /usr/share/applications/sunvox.desktop; fi
-if [ -e /usr/share/applications/sunvox-opengl.desktop ]; then sudo rm -f /usr/share/applications/sunvox-opengl.desktop; fi
-if [ -e /usr/share/applications/sunvox-fix.desktop ]; then sudo rm -f /usr/share/applications/sunvox-fix.desktop; fi
+sudo rm -rf /opt/sunvox
+sudo rm -f /usr/local/bin/sunvox /usr/local/bin/sunvox_opengl
+sudo rm -f /usr/share/applications/sunvox.desktop
+sudo rm -f /usr/share/applications/sunvox-opengl.desktop
+sudo rm -f /usr/share/applications/sunvox-fix.desktop
 
-echo "Download SunVox from official server"
-wget https://warmplace.ru/soft/sunvox/sunvox-"$VERSION".zip
-wget https://warmplace.ru/soft/sunvox/images/icon.png
-# Unzip the downloaded file
-unzip sunvox-"$VERSION".zip
-rm sunvox-"$VERSION".zip
+echo "Downloading SunVox from official server"
+wget "https://warmplace.ru/soft/sunvox/sunvox-${VERSION}.zip"
+wget "https://warmplace.ru/soft/sunvox/images/icon.png"
 
-echo "Installation"
-# Create a directory for SunVox
+echo "Unzipping"
+unzip -o "sunvox-${VERSION}.zip"
+rm "sunvox-${VERSION}.zip"
+
+echo "Installing"
 sudo mkdir -p /opt/sunvox
 sudo mv icon.png sunvox/
-# Move the SunVox files to the new directory
 sudo mv sunvox/* /opt/sunvox/
 rm -r sunvox
 
 echo "Creating starters"
-# Create a symbolic link to the SunVox binary
-sudo ln -s /opt/sunvox/sunvox/linux_x86_64/sunvox /usr/local/bin/
-sudo ln -s /opt/sunvox/sunvox/linux_x86_64/sunvox_opengl /usr/local/bin/
-# Create a desktop file for SunVox
-echo "[Desktop Entry]
+sudo ln -sf /opt/sunvox/sunvox/linux_x86_64/sunvox /usr/local/bin/
+sudo ln -sf /opt/sunvox/sunvox/linux_x86_64/sunvox_opengl /usr/local/bin/
+
+sudo tee /usr/share/applications/sunvox.desktop > /dev/null <<'EOF'
+[Desktop Entry]
 Name=SunVox
 Exec=/opt/sunvox/sunvox/linux_x86_64/sunvox
 Icon=/opt/sunvox/icon.png
-Type=Application" | sudo tee /usr/share/applications/sunvox.desktop > /dev/null
+Type=Application
+EOF
 
-echo "[Desktop Entry]
+sudo tee /usr/share/applications/sunvox-opengl.desktop > /dev/null <<'EOF'
+[Desktop Entry]
 Name=SunVox Open-GL
 Exec=/opt/sunvox/sunvox/linux_x86_64/sunvox_opengl
 Icon=/opt/sunvox/icon.png
-Type=Application" | sudo tee /usr/share/applications/sunvox-opengl.desktop > /dev/null
+Type=Application
+EOF
 
 sudo tee /usr/share/applications/sunvox-fix.desktop > /dev/null <<'EOF'
 [Desktop Entry]
@@ -55,6 +63,8 @@ Exec=xdotool search --name 'Sunvox' set_window --class 'Sunvox'
 Icon=/opt/sunvox/icon.png
 Type=Application
 EOF
+
+echo "SunVox ${VERSION} installed successfully."
 
 
 
