@@ -10,7 +10,7 @@ if [ -z "$VERSION" ]; then
 fi
 
 echo "Removing previous version"
-if [ -d /opt/sunvox ]; then sudo rm -rf /opt/sunvox; fi
+if [ -d /opt/sunvox ]; then sudo rm -rf /opt/sunvox/* /opt/sunvox/.[!.]* 2>/dev/null || true; sudo rmdir /opt/sunvox 2>/dev/null || true; fi
 if [ -e /usr/local/bin/sunvox ]; then sudo rm -f /usr/local/bin/sunvox; fi
 if [ -e /usr/local/bin/sunvox_opengl ]; then sudo rm -f /usr/local/bin/sunvox_opengl; fi
 if [ -e /usr/share/applications/sunvox.desktop ]; then sudo rm -f /usr/share/applications/sunvox.desktop; fi
