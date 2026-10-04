@@ -1,4 +1,5 @@
 #! /bin/bash
+set -euo pipefail
 
 read -p "Please enter the version of sunvox, you want to install (Example: 2.1b): " VERSION 
 
