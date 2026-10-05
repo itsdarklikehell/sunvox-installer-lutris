@@ -1,10 +1,76 @@
 name: CI
+
 on:
   push:
-    branches: ["main","main","master"]
+    branches: ["main", "master"]
   pull_request:
-    branches: ["main","main","master"]
+    branches: ["main", "master"]
   workflow_dispatch:
+
 jobs:
-  ci:
-    uses: itsdarklikehell/ci-templates/.github/workflows/ci-generic.yml@v1
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: "."
+          format: gcc
+
+  bats:
+    name: Bats Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Bats
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bats
+          # Install bats-support and bats-assert
+          git clone https://github.com/bats-core/bats-support.git /tmp/bats-support
+          git clone https://github.com/bats-core/bats-assert.git /tmp/bats-assert
+
+      - name: Run Bats tests
+        run: |
+          export BATS_SUPPORT_PATH=/tmp/bats-support
+          export BATS_ASSERT_PATH=/tmp/bats-assert
+          bats tests/
+
+  yaml-lint:
+    name: YAML Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Lint YAML files
+        run: yamllint sunvox-installer.yaml
+
+  test-install:
+    name: Test Install Script
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test help output
+        run: |
+          chmod +x sunvox-installer.sh
+          ./sunvox-installer.sh --help
+          ./sunvox-installer.sh --version
+
+      - name: Test dry-run
+        run: |
+          ./sunvox-installer.sh --dry-run 2.1.1c
+
+      - name: Test invalid version
+        run: |
+          if ./sunvox-installer.sh "invalid"; then
+            echo "Should have failed"
+            exit 1
+          fi
